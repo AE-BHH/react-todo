@@ -1,29 +1,16 @@
 import React from 'react'
-const todoList = [
-	{
-		id: '1',
-		title: 'Family call',
-	},
-	{
-		id: '2',
-		title: 'Shopping groceries',
-	},
-	{
-		id: '3',
-		title: 'CTD assignment due 10/3',
-	},
-]
+import TodoList from './TodoList'
+import AddTodoForm from './AddTodoForm'
 
 function App() {
+	const [newTodo, setNewTodo] = React.useState('')
 	return (
-		<div>
+		<>
 			<h1>Todo List</h1>
-			<ul>
-				{todoList.map((item) => {
-					return <li key={item.id}>{item.title}</li>
-				})}
-			</ul>
-		</div>
+			<TodoList />
+			<AddTodoForm onAddTodo={setNewTodo} />
+			<p>Here is: {newTodo}</p>
+		</>
 	)
 }
 
