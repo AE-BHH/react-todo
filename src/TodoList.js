@@ -21,9 +21,7 @@ const TodoList = () => {
 		<>
 			<ul>
 				{todoList.map((item) => {
-					return <TodoListItem key={item.id}
-					listItem={item} />
-					
+					return <TodoListItem key={item.id} listItem={item} />
 				})}
 			</ul>
 		</>
