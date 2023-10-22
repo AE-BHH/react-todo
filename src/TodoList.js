@@ -22,7 +22,7 @@ const TodoList = () => {
 			<ul>
 				{todoList.map((item) => {
 					return <TodoListItem key={item.id}
-					props={item} />
+					listItem={item} />
 					
 				})}
 			</ul>
