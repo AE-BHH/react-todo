@@ -3,11 +3,9 @@ import TodoList from './TodoList'
 import AddTodoForm from './AddTodoForm'
 
 function App() {
-	const [todoList, setTodoList] = useState(
-		JSON.parse(localStorage.getItem('savedTodoList') || [])
-	)
+	const [todoList, setTodoList] = useState()
 	const [isLoading, setIsLoading] = useState(true)
-	console.log(isLoading)
+
 	useEffect(() => {
 		new Promise((resolve, reject) => {
 			setTimeout(() => {
@@ -19,8 +17,6 @@ function App() {
 			}, 2000)
 		})
 			.then((result) => {
-				console.log(result)
-				console.log(result.data.todoList)
 				setTodoList(result.data.todoList)
 				setIsLoading(false)
 			})
