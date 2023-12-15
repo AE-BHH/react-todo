@@ -1,7 +1,8 @@
 import React from 'react'
+import InputWithLabel from './InputWithLabel'
 
 function AddTodoForm(props) {
-	const {onAddTodo} = props;
+	const { onAddTodo } = props
 	const [todoTitle, setTodoTitle] = React.useState('')
 
 	function handleTitleChange(event) {
@@ -18,14 +19,11 @@ function AddTodoForm(props) {
 
 	return (
 		<>
+			<InputWithLabel
+				todoTitle={todoTitle}
+				handleTitleChange={handleTitleChange}
+			>Title</InputWithLabel>
 			<form onSubmit={handleAddTodo}>
-				<label htmlFor='todoTitle'>Title</label>
-				<input
-					type='text'
-					id='todoTitle'
-					name='title'
-					value={todoTitle}
-					onChange={handleTitleChange}></input>
 				<button type='submit'>Submit</button>
 			</form>
 		</>
