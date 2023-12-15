@@ -29,6 +29,7 @@ function App() {
 		<>
 			<h1>Todo List</h1>
 			<TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+
 			<AddTodoForm onAddTodo={addTodo} />
 		</>
 	)
