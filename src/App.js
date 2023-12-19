@@ -18,6 +18,7 @@ function App() {
 		}
 		try {
 			const response = await fetch(url, options)
+			console.log(response)
 			if (!response.ok) {
 				const message = `Error has ocurred: ${response.status}`
 				throw new Error(message)
@@ -27,12 +28,12 @@ function App() {
 			const todos = data.records.map((todo) => {
 				const newTodo = {
 					id: todo.id,
-					title: todo.title,
+					title: todo.fields.title,
 				}
 
 				return newTodo
 			})
-			setTodoList(todos)
+			setTodoList([...todos])
 			setIsLoading(false)
 		} catch (error) {
 			console.log(`Something went wrong: ${error}`)
