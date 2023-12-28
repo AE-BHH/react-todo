@@ -1,6 +1,15 @@
 import React from 'react'
 
-export default function TodoListItem({ props }) {
-	return <li>{props.title}</li>
+function TodoListItem({ listItem, onRemoveTodo }) {
+	console.log(listItem)
+	return (
+		<li>
+			{listItem.title}
+			<button type='button' onClick={() => onRemoveTodo(listItem.id)}>
+				Remove
+			</button>
+		</li>
+	)
 }
-// no changes made to this file recently
+
+export default TodoListItem
