@@ -1,14 +1,18 @@
 import React from 'react'
 import InputWithLabel from './InputWithLabel'
 import style from './TodoListItem.module.css'
+import PropTypes from 'prop-types'
 
 function AddTodoForm({ onAddTodo }) {
-	// const { onAddTodo } = props
 	const [todoTitle, setTodoTitle] = React.useState('')
 
 	function handleTitleChange(event) {
 		const newTodoTitle = event.target.value
 		setTodoTitle(newTodoTitle)
+	}
+
+	onAddTodo.PropTypes = {
+		onAddTodo: PropTypes.func.isRequired,
 	}
 
 	function handleAddTodo(event) {
@@ -22,13 +26,14 @@ function AddTodoForm({ onAddTodo }) {
 		<>
 			<form onSubmit={handleAddTodo}>
 				<InputWithLabel
-				
 					todoTitle={todoTitle}
 					handleTitleChange={handleTitleChange}>
 					{/* <h4 style={{color: 'white', fontWeight: '900'}}>Title</h4> */}
 				</InputWithLabel>
 
-				<button className={`btnSubmit ${style.btnSubmit}`} type='submit'>SUBMIT</button>
+				<button className={`btnSubmit ${style.btnSubmit}`} type='submit'>
+					SUBMIT
+				</button>
 			</form>
 		</>
 	)
