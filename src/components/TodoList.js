@@ -3,7 +3,7 @@ import TodoListItem from './TodoListItem'
 import PropTypes from 'prop-types'
 
 TodoListItem.propTypes = {
-	todoList: PropTypes.string.isRequired,
+	todoList: PropTypes.string,
 	onRemoveTodo: PropTypes.func.isRequired
 }
 

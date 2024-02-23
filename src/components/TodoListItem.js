@@ -3,8 +3,8 @@ import style from './TodoListItem.module.css'
 import PropTypes from 'prop-types'
 
 TodoListItem.propTypes = {
-	listItem: PropTypes.string.isRequired,
-	onRemoveTodo: PropTypes.func.isRequired,
+	listItem: PropTypes.string,
+	onRemoveTodo: PropTypes.func,
 }
 function TodoListItem({ listItem, onRemoveTodo }) {
 	console.log(listItem)
