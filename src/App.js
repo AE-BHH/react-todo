@@ -95,9 +95,25 @@ function App() {
 		}
 	}, [todoList, isLoading])
 
-	function removeTodo(id) {
-		const updatedTodoList = todoList.filter((item) => item.id !== id)
-		setTodoList(updatedTodoList)
+	const removeTodo = async (id) => {
+		try {
+			const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}/${id}`
+			const options = {
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+				},
+			}
+
+			const response = await fetch(url, options)
+			if (!response.ok) {
+				throw new Error(`Error deleting todo: ${response.status}`)
+			}
+
+			setTodoList(todoList.filter((todo) => todo.id !== id))
+		} catch (error) {
+			console.error('Error deleting todo:', error)
+		}
 	}
 
 	function addTodo(newTodo) {
