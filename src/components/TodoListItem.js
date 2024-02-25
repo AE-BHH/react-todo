@@ -7,7 +7,7 @@ TodoListItem.propTypes = {
 	onRemoveTodo: PropTypes.func,
 }
 function TodoListItem({ listItem, onRemoveTodo }) {
-	console.log(listItem)
+
 	return (
 		<li className={style.ListItem}>
 			{listItem.title}
