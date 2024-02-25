@@ -18,7 +18,9 @@ function AddTodoForm({ onAddTodo }) {
 	function handleAddTodo(event) {
 		event.preventDefault()
 
-		onAddTodo({ title: todoTitle, id: Date.now() })
+		onAddTodo({ title: todoTitle, 
+			// id: Date.now() 
+		})
 		setTodoTitle('')
 	}
 
@@ -31,7 +33,7 @@ function AddTodoForm({ onAddTodo }) {
 					{/* <h4 style={{color: 'white', fontWeight: '900'}}>Title</h4> */}
 				</InputWithLabel>
 
-				<button className={`btnSubmit ${style.btnSubmit}`} type='submit'>
+				<button className={style.btnSubmit}  type='submit'>
 					SUBMIT
 				</button>
 			</form>

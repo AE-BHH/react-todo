@@ -7,10 +7,11 @@ import style from './components/TodoListItem.module.css'
 function App() {
 	const [todoList, setTodoList] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
+	const [sortedField, setSortedField] = useState('title')
+	const [sortDirection, setSortedDirection] = useState('asc')
 
 	const fetchData = async () => {
-		const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`
-		console.log(url)
+		const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}?view=Grid%20view&sort[0][field]=title&sort[0][direction]=${sortDirection}`
 
 		const options = {
 			method: 'GET',
@@ -18,23 +19,34 @@ function App() {
 				Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
 			},
 		}
+
 		try {
 			const response = await fetch(url, options)
-			console.log(response)
+
 			if (!response.ok) {
 				const message = `Error has ocurred: ${response.status}`
 				throw new Error(message)
 			}
 			const data = await response.json()
 
+			data.records.sort((objA, objB) => {
+				if (sortDirection === 'asc') {
+					return objA[sortedField] < objB[sortedField] ? -1 : 1
+				} else {
+					return objA[sortedField] > objB[sortedField] ? -1 : 1
+				}
+			})
+
 			const todos = data.records.map((todo) => {
 				const newTodo = {
 					id: todo.id,
 					title: todo.fields.title,
+					createdTime: todo.createdTime,
 				}
 
 				return newTodo
 			})
+			console.log(todos)
 			setTodoList([...todos])
 			setIsLoading(false)
 		} catch (error) {
@@ -42,24 +54,79 @@ function App() {
 		}
 	}
 
+	const postTodo = async (newTodo) => {
+		try {
+			const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}`
+			const options = {
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					fields: {
+						title: newTodo.title,
+					},
+				}),
+			}
+
+			const response = await fetch(url, options)
+
+			console.log('this is the response; ', response)
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`)
+			}
+			const data = await response.json()
+			console.log('This is the data: ', data)
+
+			setTodoList([...todoList, { id: data.id, title: data.fields.title }])
+		} catch (error) {
+			console.error('Error adding todo:', error)
+		}
+	}
+
 	useEffect(() => {
 		fetchData()
-	}, [])
+	}, [sortedField, sortDirection])
 
 	useEffect(() => {
 		if (!isLoading) {
 			localStorage.setItem('savedTodoList', JSON.stringify(todoList))
 		}
 	}, [todoList, isLoading])
-	console.log(todoList)
 
-	function removeTodo(id) {
-		const updatedTodoList = todoList.filter((item) => item.id !== id)
-		setTodoList(updatedTodoList)
+	const removeTodo = async (id) => {
+		try {
+			const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/${process.env.REACT_APP_TABLE_NAME}/${id}`
+			const options = {
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_TOKEN}`,
+				},
+			}
+
+			const response = await fetch(url, options)
+			if (!response.ok) {
+				throw new Error(`Error deleting todo: ${response.status}`)
+			}
+
+			setTodoList(todoList.filter((todo) => todo.id !== id))
+		} catch (error) {
+			console.error('Error deleting todo:', error)
+		}
 	}
 
 	function addTodo(newTodo) {
-		setTodoList([...todoList, newTodo])
+		console.log('this is new todo: ', newTodo)
+		postTodo(newTodo)
+	}
+
+	function toggleSortDirection() {
+		setSortedDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+	}
+
+	function toggleSortField(field) {
+		setSortedField(field)
 	}
 
 	return (
@@ -70,23 +137,39 @@ function App() {
 						path='/'
 						element={
 							<>
+								<div className={style.navigation}>
+									<label className={style.label}>sorted by: </label>
+									<button
+										className={style.sortBtn}
+										onClick={toggleSortDirection}>
+										{sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+									</button>
+									<button
+										className={style.sortBtn}
+										onClick={() => toggleSortField('title')}>
+										Title
+									</button>
+									<button
+										className={style.sortBtn}
+										onClick={() => toggleSortField('createdTime')}>
+										Created Time
+									</button>
+								</div>
+								<h2 className={`myTodoList ${style.myTodoList}`}>Todo List:</h2>
+								<AddTodoForm onAddTodo={addTodo} />
 								{isLoading ? (
 									<p>Loading...</p>
 								) : (
 									<div>
-										<h2 className={`myTodoList ${style.myTodoList}`}>
-											{' '}
-											Todo List:
-										</h2>
 										<TodoList todoList={todoList} onRemoveTodo={removeTodo} />
 									</div>
 								)}
-								<AddTodoForm onAddTodo={addTodo} />
 							</>
 						}></Route>
 					<Route path='/new' element={<h1>New Todo List</h1>}></Route>0
 				</Routes>
 			</BrowserRouter>
+			
 		</div>
 	)
 }

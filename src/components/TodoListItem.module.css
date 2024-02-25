@@ -1,36 +1,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Open+Sans:wght@300&display=swap');
 
 .container {
+	display: block;
+	justify-content: center;
 	height: 100vw;
 	margin: 0;
 	padding: 0;
 	font-family: 'Lora', serif;
 	background-color: #0b666a;
 }
+
+.navigation {
+	display: flex;
+	justify-content: end;
+	padding-left: 5rem;
+}
+
+
+
+.label {
+	font-size: 2rem;
+	color: white;
+}
+
+.myList{
+	display: block;
+	justify-content: center;
+	margin: auto;
+}
+
+.sortBtn {
+	padding: 0.5rem;
+	/* width: ; */
+}
 .myTodoList {
 	color: white;
 	letter-spacing: 3px;
 	font-weight: 900;
-	margin-left: 2%;
+	margin-left: 5rem;
 }
 .ListItem {
 	color: white;
 	font-size: 20px;
-	padding: 5px 10px;
+	padding: 1rem 2rem;
+	margin: 2rem;
 }
 
-.btn,
 .btnSubmit {
 	background-color: white;
 	padding: 3px 5px;
 	font-weight: 900;
 	border-radius: 5px;
-	margin-left: 5px;
+	
+	/* margin-left: 5rem; */
+	cursor: pointer;
+}
+.btn {
+	background-color: white;
+	padding: 3px 5px;
+	font-weight: 900;
+	border-radius: 5px;
+	margin-left: 1rem;
 	cursor: pointer;
 }
 .inputField {
-	margin-left: 2%;
-	margin-top: 10%;
+	margin-left: 5%;
+	/* margin-top: 10%; */
 	width: 10rem;
 	padding: 0.5rem;
 	border-radius: 5px;
@@ -39,7 +74,7 @@
 
 .btnSubmit {
 	display: block;
-	margin-left: 2%;
+	margin-left: 5%;
 	width: 11rem;
 	margin-top: 1rem;
 	padding: 0.5rem;
