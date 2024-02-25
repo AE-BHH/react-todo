@@ -46,7 +46,7 @@ function App() {
 
 				return newTodo
 			})
-			console.log(todos)
+
 			setTodoList([...todos])
 			setIsLoading(false)
 		} catch (error) {
@@ -72,12 +72,10 @@ function App() {
 
 			const response = await fetch(url, options)
 
-			console.log('this is the response; ', response)
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`)
 			}
 			const data = await response.json()
-			console.log('This is the data: ', data)
 
 			setTodoList([...todoList, { id: data.id, title: data.fields.title }])
 		} catch (error) {
@@ -117,7 +115,6 @@ function App() {
 	}
 
 	function addTodo(newTodo) {
-		console.log('this is new todo: ', newTodo)
 		postTodo(newTodo)
 	}
 
@@ -138,21 +135,29 @@ function App() {
 						element={
 							<>
 								<div className={style.navigation}>
-									<label className={style.label}>sorted by: </label>
-									<button
-										className={style.sortBtn}
-										onClick={toggleSortDirection}>
-										{sortDirection === 'asc' ? 'Ascending' : 'Descending'}
-									</button>
+									<label className={style.label}>sort by: </label>
+
 									<button
 										className={style.sortBtn}
 										onClick={() => toggleSortField('title')}>
-										Title
+										<h3 style={{ fontSize: '1rem', fontWeight: 'bolder' }}>
+											Title
+										</h3>
 									</button>
 									<button
 										className={style.sortBtn}
 										onClick={() => toggleSortField('createdTime')}>
-										Created Time
+										<h3 style={{ fontSize: '1rem', fontWeight: 'bolder' }}>
+											Time
+										</h3>
+									</button>
+									<button
+										className={style.sortBtn}
+										onClick={toggleSortDirection}>
+										{' '}
+										<h3 style={{ fontWeight: 'bolder' }}>
+											{sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+										</h3>
 									</button>
 								</div>
 								<h2 className={`myTodoList ${style.myTodoList}`}>Todo List:</h2>
@@ -169,7 +174,6 @@ function App() {
 					<Route path='/new' element={<h1>New Todo List</h1>}></Route>0
 				</Routes>
 			</BrowserRouter>
-			
 		</div>
 	)
 }
